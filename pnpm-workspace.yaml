@@ -1,0 +1,13 @@
+# Supply-chain settings. See ~/.claude/CLAUDE.md for the rationale.
+
+# Three weeks, in minutes. Applies to transitive dependencies too, which is
+# where a compromised version usually reaches you. Malicious releases are
+# typically pulled from the registry within an hour, so this window means a
+# compromised version is never eligible for install in the first place.
+#
+# If something you need is newer than this, add that one package to
+# minimumReleaseAgeExclude rather than lowering the global value.
+minimumReleaseAge: 30240
+
+# Write exact versions on `pnpm add` instead of a `^` range.
+savePrefix: ''

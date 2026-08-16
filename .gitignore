@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# pnpm's content-addressable store. The dev container keeps node_modules on a
+# named volume while the project itself is a bind mount, so pnpm falls back to
+# a store inside the workspace to keep hardlinks on one filesystem. Thousands
+# of files, never source.
+.pnpm-store/
+
+# Dev container config is kept local and out of the repo. It is specific to
+# this machine anyway: it installs AVG's locally generated root CA, without
+# which nothing inside the container can complete a TLS handshake.
+.devcontainer/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
