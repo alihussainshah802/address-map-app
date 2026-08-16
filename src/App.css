@@ -1,0 +1,75 @@
+.app {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.status-message {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #6b6b66;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.status-message--error {
+  color: #a32d2d;
+}
+
+.search-box {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  max-width: 360px;
+  z-index: 1;
+}
+
+.search-box__autocomplete {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.search-error {
+  position: absolute;
+  top: 66px;
+  left: 14px;
+  right: 14px;
+  max-width: 360px;
+  z-index: 1;
+  background: #fcebeb;
+  color: #791f1f;
+  border: 0.5px solid #f09595;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.address-card {
+  position: absolute;
+  bottom: 20px;
+  left: 14px;
+  z-index: 1;
+  background: #fff;
+  border: 0.5px solid #e5e3dc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+}
+
+.address-card__text {
+  font-size: 13px;
+  color: #1a1a18;
+}
