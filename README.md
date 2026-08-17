@@ -6,19 +6,24 @@ Search for an address and see it on a map.
 
 1. Install dependencies:
    ```
-   npm install
+   pnpm install
    ```
-2. Add your Google Maps API key to `.env.local`:
+2. Start the dev server:
    ```
-   VITE_GOOGLE_MAPS_API_KEY=your_actual_key
+   pnpm dev
    ```
-   The key needs the **Maps JavaScript API** and **Places API** enabled in Google Cloud Console.
-3. Start the dev server:
-   ```
-   npm run dev
-   ```
+
+No API key or account is needed. Map tiles come from OpenStreetMap and address
+search from Nominatim, both free and keyless.
 
 ## Notes
 
 - Client-side only, no backend.
-- For local dev an unrestricted key works, but restrict it by HTTP referrer in Google Cloud Console before deploying anywhere public.
+- Nominatim's usage policy caps automated traffic at roughly one request per
+  second. Typing is debounced to stay within it. If you deploy this publicly
+  and expect real traffic, run your own Nominatim or Photon instance, or use a
+  hosted geocoder, rather than pointing volume at the public endpoint.
+- OpenStreetMap's tile servers have their own usage policy and are not intended
+  to serve production traffic. For anything public, use a tile host.
+- Attribution for both tiles and geocoding is required and is rendered on the
+  map; don't remove it.
