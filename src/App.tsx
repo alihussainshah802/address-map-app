@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
-import L from 'leaflet'
+import L, { type LatLngTuple } from 'leaflet'
 import { OpenStreetMapProvider } from 'leaflet-geosearch'
+// leaflet-geosearch's package root (dist/index.d.ts) re-exports every
+// provider but not this type, even though the package itself defines it.
+// The deep import is the only way to reach it.
+import type { SearchResult } from 'leaflet-geosearch/dist/providers/provider.d.ts'
 import 'leaflet/dist/leaflet.css'
 
 // Leaflet's default marker resolves its icons with relative URLs, which breaks
@@ -13,7 +17,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
 import './App.css'
 
-const DEFAULT_CENTER = [37.7749, -122.4194]
+const DEFAULT_CENTER: LatLngTuple = [37.7749, -122.4194]
 const DEFAULT_ZOOM = 12
 const SELECTED_ZOOM = 16
 
@@ -32,9 +36,18 @@ const markerIconDefault = L.icon({
   shadowSize: [41, 41],
 })
 
+interface SelectedPlace {
+  position: LatLngTuple
+  address: string
+}
+
+interface MapFocusProps {
+  position: LatLngTuple | undefined
+}
+
 // react-leaflet exposes the map only through context, so panning has to happen
 // from inside MapContainer rather than from App.
-function MapFocus({ position }) {
+function MapFocus({ position }: MapFocusProps) {
   const map = useMap()
 
   useEffect(() => {
@@ -48,9 +61,9 @@ function App() {
   const provider = useMemo(() => new OpenStreetMapProvider(), [])
 
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState([])
-  const [selectedPlace, setSelectedPlace] = useState(null)
-  const [searchError, setSearchError] = useState(null)
+  const [results, setResults] = useState<SearchResult[]>([])
+  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(null)
+  const [searchError, setSearchError] = useState<string | null>(null)
   const [isSearching, setIsSearching] = useState(false)
 
   // Guards against a slow earlier request resolving after a newer one and
@@ -99,7 +112,7 @@ function App() {
     return () => clearTimeout(timer)
   }, [provider, query])
 
-  const handleSelect = useCallback((result) => {
+  const handleSelect = useCallback((result: SearchResult) => {
     skipSearchRef.current = true
     setSelectedPlace({
       position: [result.y, result.x],
